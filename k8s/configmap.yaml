@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-framework-config
+  namespace: fintech-qa
+data:
+  APP_ENV: "qa"
+  BASE_API_URL: "http://wiremock.fintech-qa.svc.cluster.local:8080"
+  BASE_UI_URL: "https://parabank.parasoft.com/parabank"
+  SELENIUM_GRID_URL: "http://selenium-hub.fintech-qa.svc.cluster.local:4444"
+  KAFKA_BOOTSTRAP_SERVERS: "kafka.fintech-qa.svc.cluster.local:9092"
+  KAFKA_PAYMENT_TOPIC: "payment-events"
+  DB_URL: "jdbc:postgresql://postgres.fintech-qa.svc.cluster.local:5432/fintech_db"
+  INFLUXDB_URL: "http://influxdb.fintech-qa.svc.cluster.local:8086"
+  INFLUXDB_ORG: "fintech-qa"
+  INFLUXDB_BUCKET: "test-metrics"

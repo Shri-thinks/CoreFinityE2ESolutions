@@ -1,0 +1,106 @@
+version: '3.8'
+
+services:
+  # 1. Relational Database for Core Banking & Ledger
+  postgres:
+    image: postgres:15-alpine
+    container_name: fintech-postgres
+    environment:
+      POSTGRES_DB: fintech_db
+      POSTGRES_USER: fintech_user
+      POSTGRES_PASSWORD: fintech_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./infra/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fintech_user -d fintech_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. Apache Kafka & Zookeeper for Asynchronous Financial Event Streams
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: fintech-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: fintech-kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://kafka:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT_INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+
+  # 3. Time-Series DB for Real-Time Test Telemetry
+  influxdb:
+    image: influxdb:2.7-alpine
+    container_name: fintech-influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: admin
+      DOCKER_INFLUXDB_INIT_PASSWORD: AdminPassword123!
+      DOCKER_INFLUXDB_INIT_ORG: fintech-qa
+      DOCKER_INFLUXDB_INIT_BUCKET: test-metrics
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: fintech-super-secret-token
+
+  # 4. Grafana for Real-Time Execution Dashboards
+  grafana:
+    image: grafana/grafana:10.4.1
+    container_name: fintech-grafana
+    depends_on:
+      - influxdb
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - ./infra/grafana/provisioning:/etc/grafana/provisioning
+
+  # 5. Selenium Grid Hub & Dynamic Chrome Nodes for Containerized Execution
+  selenium-hub:
+    image: selenium/hub:4.19.1
+    container_name: fintech-selenium-hub
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+
+  chrome-node:
+    image: selenium/node-chrome:4.19.1
+    container_name: fintech-chrome-node
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=4
+    shm_size: 2gb
+
+  # 6. WireMock Mock Banking Service (Simulating Core Banking REST Endpoints)
+  wiremock:
+    image: wiremock/wiremock:3.5.2
+    container_name: fintech-wiremock
+    ports:
+      - "8089:8080"
+    volumes:
+      - ./infra/wiremock:/home/wiremock

@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: fintech-automation-suite
+  namespace: fintech-qa
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: fintech-test-runner
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: test-runner
+          image: fintech-test-runner:latest
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: test-framework-config
+            - secretRef:
+                name: test-framework-secrets
+          command: ["mvn", "test", "-DsuiteXmlFile=src/test/resources/testng.xml"]
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "1000m"
+            limits:
+              memory: "2Gi"
+              cpu: "2000m"

@@ -1,0 +1,22 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPath": "/api/v1/cards/issue"
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "cardId": "CRD-99887766",
+      "accountId": "ACC-DEMO-001",
+      "cardType": "VIRTUAL",
+      "maskedPan": "411111******1111",
+      "cardToken": "tok_visa_card_enc_998877",
+      "status": "PENDING_ACTIVATION",
+      "dailyLimit": 1000.00,
+      "expiryDate": "12/2029"
+    }
+  }
+}

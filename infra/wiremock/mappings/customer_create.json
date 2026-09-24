@@ -1,0 +1,21 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPath": "/api/v1/customers"
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "customerId": "CUST-DEMO-001",
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "john.doe@fintechqa.com",
+      "kycStatus": "VERIFIED",
+      "accountId": "ACC-DEMO-001",
+      "createdAt": "2026-09-24T12:00:00Z"
+    }
+  }
+}

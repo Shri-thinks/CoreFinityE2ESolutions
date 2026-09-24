@@ -1,0 +1,94 @@
+name: Fintech Test Automation CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target Environment'
+        required: true
+        default: 'qa'
+        type: choice
+        options:
+          - dev
+          - qa
+          - staging
+
+jobs:
+  build-and-test:
+    name: Run Enterprise E2E Test Suite
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_DB: fintech_db
+          POSTGRES_USER: fintech_user
+          POSTGRES_PASSWORD: fintech_pass
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      selenium-grid:
+        image: selenium/standalone-chrome:4.19.1
+        ports:
+          - 4444:4444
+        options: --shm-size=2gb
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Initialize Database Schema
+        run: |
+          sudo apt-get install -y postgresql-client
+          PGPASSWORD=fintech_pass psql -h localhost -U fintech_user -d fintech_db -f infra/init-db.sql
+
+      - name: Run TestNG Suite (Headless Parallel Execution)
+        run: |
+          mvn clean test \
+            -Denv=${{ github.event.inputs.environment || 'qa' }} \
+            -Dbrowser=chrome \
+            -Dheadless=true \
+            -Dselenium.grid.url=http://localhost:4444 \
+            -Ddb.url=jdbc:postgresql://localhost:5432/fintech_db \
+            -DsuiteXmlFile=src/test/resources/testng.xml
+
+      - name: Generate Allure Report
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        with:
+          allure_results: target/allure-results
+          allure_report: target/allure-report
+          gh_pages: gh-pages
+          allure_history: allure-history
+
+      - name: Publish Allure Report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: target/allure-report
+
+      - name: Upload Test Logs Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: execution-logs
+          path: logs/

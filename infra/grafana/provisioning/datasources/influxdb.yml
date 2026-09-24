@@ -1,0 +1,16 @@
+apiVersion: 1
+
+datasources:
+  - name: InfluxDB-QA
+    type: influxdb
+    access: proxy
+    url: http://influxdb:8086
+    jsonData:
+      version: Flux
+      organization: fintech-qa
+      defaultBucket: test-metrics
+      tlsSkipVerify: true
+    secureJsonData:
+      token: fintech-super-secret-token
+    isDefault: true
+    editable: true

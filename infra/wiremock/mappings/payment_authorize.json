@@ -1,0 +1,22 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPath": "/api/v1/payments/authorize"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "authorizationId": "AUTH-778899",
+      "authCode": "009988",
+      "status": "APPROVED",
+      "responseCode": "00",
+      "authorizedAmount": 150.00,
+      "currency": "USD",
+      "merchant": "Amazon Web Services",
+      "timestamp": "2026-09-24T12:05:00Z"
+    }
+  }
+}
