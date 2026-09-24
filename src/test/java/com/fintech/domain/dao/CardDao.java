@@ -5,6 +5,7 @@ import com.fintech.framework.database.DatabaseUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Optional;
 
@@ -23,8 +24,8 @@ public class CardDao {
                 card.getCardToken(),
                 card.getCardType() != null ? card.getCardType() : "VIRTUAL",
                 card.getStatus() != null ? card.getStatus() : "PENDING_ACTIVATION",
-                card.getDailyLimit(),
-                card.getExpiryDate()
+                card.getDailyLimit() != null ? card.getDailyLimit() : new BigDecimal("1000.00"),
+                card.getExpiryDate() != null ? card.getExpiryDate() : "12/2029"
         );
     }
 

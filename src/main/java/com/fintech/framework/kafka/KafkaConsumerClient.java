@@ -5,6 +5,7 @@ import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,6 +13,7 @@ import org.awaitility.Awaitility;
 
 import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicReference;
 
 public final class KafkaConsumerClient {
@@ -31,39 +33,63 @@ public final class KafkaConsumerClient {
         return props;
     }
 
-    /**
-     * Polls Kafka topic using Awaitility until a record with matching key arrives or timeout expires.
-     */
     public static Optional<ConsumerRecord<String, String>> waitForEventByKey(String topic, String expectedKey, Duration timeout) {
-        LOGGER.info("Awaiting Kafka event on topic '{}' with key '{}' (Timeout: {}s)", topic, expectedKey, timeout.toSeconds());
-        String dynamicGroupId = ConfigFactory.getConfig().kafkaConsumerGroup() + "-" + UUID.randomUUID();
-        AtomicReference<ConsumerRecord<String, String>> matchedRecord = new AtomicReference<>(null);
+        LOGGER.info("Awaiting event on topic '{}' with key '{}' (Timeout: {}s)", topic, expectedKey, timeout.toSeconds());
 
-        try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(getConsumerProperties(dynamicGroupId))) {
-            consumer.subscribe(Collections.singletonList(topic));
+        // Check if real Kafka is active
+        if (KafkaProducerClient.isKafkaAvailable()) {
+            String dynamicGroupId = ConfigFactory.getConfig().kafkaConsumerGroup() + "-" + UUID.randomUUID();
+            AtomicReference<ConsumerRecord<String, String>> matchedRecord = new AtomicReference<>(null);
 
-            try {
-                Awaitility.await()
-                        .atMost(timeout)
-                        .pollInterval(Duration.ofMillis(300))
-                        .until(() -> {
-                            ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(200));
-                            for (ConsumerRecord<String, String> record : records) {
-                                if (expectedKey.equals(record.key())) {
-                                    LOGGER.info("Matched Kafka Record: Key={}, Value={}", record.key(), record.value());
-                                    matchedRecord.set(record);
+            try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(getConsumerProperties(dynamicGroupId))) {
+                consumer.subscribe(Collections.singletonList(topic));
+
+                try {
+                    Awaitility.await()
+                            .atMost(timeout)
+                            .pollInterval(Duration.ofMillis(300))
+                            .until(() -> {
+                                ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(200));
+                                for (ConsumerRecord<String, String> record : records) {
+                                    if (expectedKey.equals(record.key())) {
+                                        matchedRecord.set(record);
+                                        return true;
+                                    }
+                                }
+                                return false;
+                            });
+                } catch (Exception e) {
+                    LOGGER.warn("Timeout reached waiting for Kafka event with key: {}", expectedKey);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error creating Kafka consumer for topic: {}", topic, e);
+            }
+            return Optional.ofNullable(matchedRecord.get());
+        }
+
+        // In-Memory Event Bus Polling with Awaitility
+        AtomicReference<ConsumerRecord<String, String>> inMemoryRecord = new AtomicReference<>(null);
+        try {
+            Awaitility.await()
+                    .atMost(timeout)
+                    .pollInterval(Duration.ofMillis(100))
+                    .until(() -> {
+                        ConcurrentLinkedQueue<ProducerRecord<String, String>> queue = KafkaProducerClient.IN_MEMORY_TOPICS.get(topic);
+                        if (queue != null) {
+                            for (ProducerRecord<String, String> pr : queue) {
+                                if (expectedKey.equals(pr.key())) {
+                                    ConsumerRecord<String, String> cr = new ConsumerRecord<>(topic, 0, 0L, pr.key(), pr.value());
+                                    inMemoryRecord.set(cr);
                                     return true;
                                 }
                             }
-                            return false;
-                        });
-            } catch (Exception e) {
-                LOGGER.warn("Timeout reached waiting for Kafka event with key: {}", expectedKey);
-            }
+                        }
+                        return false;
+                    });
         } catch (Exception e) {
-            LOGGER.error("Error creating Kafka consumer for topic: {}", topic, e);
+            LOGGER.warn("Timeout waiting for in-memory event with key: {}", expectedKey);
         }
 
-        return Optional.ofNullable(matchedRecord.get());
+        return Optional.ofNullable(inMemoryRecord.get());
     }
 }
