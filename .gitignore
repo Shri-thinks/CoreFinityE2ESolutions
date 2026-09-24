@@ -1,1 +1,78 @@
-/target/
+# =========================================================================
+# Fintech Hybrid Framework - Enterprise .gitignore
+# Covers Java/Maven, Eclipse, IntelliJ, TestNG, Allure, Logs, and Secrets
+# =========================================================================
+
+# 1. Maven Build Artifacts & Compiled Bytecode
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+*.class
+
+# 2. TestNG & Test Execution Reports
+test-output/
+test-results/
+surefire-reports/
+failsafe-reports/
+
+# 3. Allure & Extent Reporting Artifacts
+allure-results/
+allure-report/
+allure-history/
+extent-reports/
+reports/
+screenshots/
+failed-screenshots/
+
+# 4. Framework Runtime Logs
+logs/
+*.log
+*.log.*
+*.gz
+
+# 5. Eclipse IDE Metadata & Project Files
+.project
+.classpath
+.settings/
+.metadata/
+bin/
+*.launch
+.factorypath
+
+# 6. IntelliJ IDEA Metadata
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# 7. VS Code Configuration
+.vscode/
+
+# 8. Operating System Specific
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# 9. Local Secrets, Credentials & Environment Overrides
+*.env
+*.env.local
+*secret*.yaml
+*secrets*.properties
+local.properties
+auth-tokens.json
+
+# 10. Database Temporary Storage (H2 & Docker volumes)
+*.db
+*.mv.db
+*.trace.db
+pgdata/
