@@ -86,3 +86,193 @@ org.apache.kafka.common.errors.TimeoutException: Topic payment-events not presen
 2026-09-24 18:32:32.453 [TestNG-test-UI and E2E Hybrid Tests-3] WARN  com.fintech.framework.observability.InfluxDbMetricsPublisher - Unable to publish telemetry point to InfluxDB: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:8086
 2026-09-24 18:32:32.544 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.driver.DriverFactory - Quitting WebDriver for thread: TestNG-test-UI and E2E Hybrid Tests-3
 2026-09-24 18:32:32.938 [main] INFO  com.fintech.framework.observability.GrafanaTestListener - ================ FINISHED TEST SUITE: UI and E2E Hybrid Tests ================
+2026-09-24 19:09:41.339 [main] INFO  com.fintech.framework.mock.EmbeddedMockBankingServer - Embedded Mock Banking Server successfully started on port 8089
+2026-09-24 19:09:41.844 [main] INFO  com.fintech.framework.mock.EmbeddedMockBankingServer - Port 8089 is already in use (WireMock/Docker is active). Skipping embedded server.
+2026-09-24 19:09:41.854 [main] INFO  com.fintech.framework.observability.GrafanaTestListener - ================ STARTING TEST SUITE: API and Event Stream Tests ================
+2026-09-24 19:09:41.977 [TestNG-test-API and Event Stream Tests-4] INFO  com.fintech.framework.observability.GrafanaTestListener - >>> START TEST: PaymentEventKafkaTest#testKafkaPaymentEventStreaming
+2026-09-24 19:09:41.977 [TestNG-test-API and Event Stream Tests-2] INFO  com.fintech.framework.observability.GrafanaTestListener - >>> START TEST: CardIssuanceApiTest#testPaymentAuthorization
+2026-09-24 19:09:41.977 [TestNG-test-API and Event Stream Tests-3] INFO  com.fintech.framework.observability.GrafanaTestListener - >>> START TEST: CardIssuanceApiTest#testVirtualCardIssuance
+2026-09-24 19:09:41.977 [TestNG-test-API and Event Stream Tests-1] INFO  com.fintech.framework.observability.GrafanaTestListener - >>> START TEST: CardIssuanceApiTest#testCustomerCreation
+2026-09-24 19:09:41.983 [TestNG-test-API and Event Stream Tests-3] INFO  com.fintech.domain.api.client.CardIssuingApiClient - API: Issuing Virtual Card for Account ID: ACC-DEMO-001
+2026-09-24 19:09:41.985 [TestNG-test-API and Event Stream Tests-3] INFO  com.fintech.framework.api.RestClient - Executing POST request to endpoint: /api/v1/cards/issue
+2026-09-24 19:09:42.082 [TestNG-test-API and Event Stream Tests-2] INFO  com.fintech.domain.api.client.AuthorizationApiClient - API: Simulating Authorization for Amount: 150.00 USD at Merchant: Amazon Web Services
+2026-09-24 19:09:42.083 [TestNG-test-API and Event Stream Tests-2] INFO  com.fintech.framework.api.RestClient - Executing POST request to endpoint: /api/v1/payments/authorize
+2026-09-24 19:09:42.117 [TestNG-test-API and Event Stream Tests-4] INFO  com.fintech.framework.kafka.KafkaProducerClient - Publishing event to Topic: payment-events | Key: TXN-63079eb3 | Payload: {"eventId":"TXN-63079eb3","eventType":"PAYMENT_AUTHORIZED","cardId":"CRD-ae0646e7","accountId":"ACC-DEMO-001","amount":150.00,"currency":"USD","status":"APPROVED","timestamp":"2026-09-24T13:39:41.983645400Z"}
+2026-09-24 19:09:42.119 [TestNG-test-API and Event Stream Tests-4] INFO  com.fintech.framework.kafka.KafkaProducerClient - Kafka broker not reachable at localhost:9092. Using high-speed In-Memory Event Bus fallback.
+2026-09-24 19:09:42.126 [TestNG-test-API and Event Stream Tests-4] INFO  com.fintech.framework.kafka.KafkaProducerClient - Event successfully placed on in-memory topic queue: payment-events
+2026-09-24 19:09:42.130 [TestNG-test-API and Event Stream Tests-4] INFO  com.fintech.framework.kafka.KafkaConsumerClient - Awaiting event on topic 'payment-events' with key 'TXN-63079eb3' (Timeout: 5s)
+2026-09-24 19:09:42.306 [TestNG-test-API and Event Stream Tests-1] INFO  com.fintech.domain.api.client.CustomerApiClient - API: Creating customer: Maurita Ankunding
+2026-09-24 19:09:42.306 [TestNG-test-API and Event Stream Tests-1] INFO  com.fintech.framework.api.RestClient - Executing POST request to endpoint: /api/v1/customers
+2026-09-24 19:09:42.406 [TestNG-test-API and Event Stream Tests-4] INFO  com.fintech.framework.observability.GrafanaTestListener - <<< TEST PASSED: testKafkaPaymentEventStreaming (505 ms)
+2026-09-24 19:09:43.126 [TestNG-test-API and Event Stream Tests-4] INFO  com.fintech.framework.observability.InfluxDbMetricsPublisher - InfluxDB client connected to http://localhost:8086
+2026-09-24 19:09:43.357 [TestNG-test-API and Event Stream Tests-4] WARN  com.fintech.framework.observability.InfluxDbMetricsPublisher - Unable to publish telemetry point to InfluxDB: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:8086
+2026-09-24 19:09:44.854 [TestNG-test-API and Event Stream Tests-1] INFO  com.fintech.framework.observability.GrafanaTestListener - <<< TEST PASSED: testCustomerCreation (2956 ms)
+2026-09-24 19:09:44.854 [TestNG-test-API and Event Stream Tests-2] INFO  com.fintech.framework.observability.GrafanaTestListener - <<< TEST PASSED: testPaymentAuthorization (2956 ms)
+2026-09-24 19:09:44.858 [TestNG-test-API and Event Stream Tests-2] WARN  com.fintech.framework.observability.InfluxDbMetricsPublisher - Unable to publish telemetry point to InfluxDB: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:8086
+2026-09-24 19:09:44.858 [TestNG-test-API and Event Stream Tests-1] WARN  com.fintech.framework.observability.InfluxDbMetricsPublisher - Unable to publish telemetry point to InfluxDB: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:8086
+2026-09-24 19:09:44.868 [TestNG-test-API and Event Stream Tests-3] INFO  com.fintech.framework.observability.GrafanaTestListener - <<< TEST PASSED: testVirtualCardIssuance (2970 ms)
+2026-09-24 19:09:44.871 [TestNG-test-API and Event Stream Tests-3] WARN  com.fintech.framework.observability.InfluxDbMetricsPublisher - Unable to publish telemetry point to InfluxDB: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:8086
+2026-09-24 19:09:44.878 [main] INFO  com.fintech.framework.observability.GrafanaTestListener - ================ FINISHED TEST SUITE: API and Event Stream Tests ================
+2026-09-24 19:09:44.895 [main] INFO  com.fintech.framework.observability.GrafanaTestListener - ================ STARTING TEST SUITE: UI and E2E Hybrid Tests ================
+2026-09-24 19:09:44.900 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.driver.DriverFactory - Initializing WebDriver - Browser: chrome, Headless: false, ExecutionMode: local
+2026-09-24 19:09:44.901 [TestNG-test-UI and E2E Hybrid Tests-2] INFO  com.fintech.framework.driver.DriverFactory - Initializing WebDriver - Browser: chrome, Headless: false, ExecutionMode: local
+2026-09-24 19:09:44.900 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.framework.driver.DriverFactory - Initializing WebDriver - Browser: chrome, Headless: false, ExecutionMode: local
+2026-09-24 19:09:47.882 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.observability.GrafanaTestListener - >>> START TEST: EndToEndFintechLifecycleTest#testFullFintechCardLifecycle
+2026-09-24 19:09:47.887 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.api.client.CardIssuingApiClient - API: Issuing Virtual Card for Account ID: ACC-DEMO-001
+2026-09-24 19:09:47.887 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.api.RestClient - Executing POST request to endpoint: /api/v1/cards/issue
+2026-09-24 19:09:47.927 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.framework.observability.GrafanaTestListener - >>> START TEST: CardManagementUiTest#testCardActivationAndPinSetup
+2026-09-24 19:09:47.955 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.domain.ui.pages.CardManagementPage - Loading Card Management Portal for Card ID: CRD-1790257187927
+2026-09-24 19:09:47.958 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.domain.ui.pages.CardManagementPage - Navigating to URL: http://localhost:8089/card-portal
+2026-09-24 19:09:48.000 [TestNG-test-UI and E2E Hybrid Tests-2] INFO  com.fintech.framework.observability.GrafanaTestListener - >>> START TEST: CardManagementUiTest#testCardFreezeToggle
+2026-09-24 19:09:48.000 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.dao.CardDao - DB DAO: Inserting card record: ID=CRD-23ac5e78
+2026-09-24 19:09:48.002 [TestNG-test-UI and E2E Hybrid Tests-2] INFO  com.fintech.domain.ui.pages.CardManagementPage - Loading Card Management Portal for Card ID: CRD-1790257188000
+2026-09-24 19:09:48.003 [TestNG-test-UI and E2E Hybrid Tests-2] INFO  com.fintech.domain.ui.pages.CardManagementPage - Navigating to URL: http://localhost:8089/card-portal
+2026-09-24 19:09:48.007 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Executing DB Update: INSERT INTO cards (id, account_id, card_number_masked, card_token, card_type, status, daily_limit, expiry_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+2026-09-24 19:09:48.011 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseConnectionPool - PostgreSQL container not detected on localhost:5432. Initializing in-memory H2 database with schema.
+2026-09-24 19:09:48.262 [TestNG-test-UI and E2E Hybrid Tests-2] INFO  com.fintech.domain.ui.pages.CardManagementPage - Clicking on element: By.id: btn-activate-card
+2026-09-24 19:09:48.605 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.domain.ui.pages.CardManagementPage - Retrieved text 'PENDING_ACTIVATION' from element: By.id: card-status-badge
+2026-09-24 19:09:48.605 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.domain.ui.pages.CardManagementPage - Clicking on element: By.id: btn-activate-card
+2026-09-24 19:09:48.677 [TestNG-test-UI and E2E Hybrid Tests-2] INFO  com.fintech.domain.ui.pages.CardManagementPage - Clicking on element: By.id: btn-toggle-freeze
+2026-09-24 19:09:48.781 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.domain.ui.pages.CardManagementPage - Retrieved text 'ACTIVE' from element: By.id: card-status-badge
+2026-09-24 19:09:48.782 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.domain.ui.pages.CardManagementPage - Entering text into element: By.id: input-card-pin
+2026-09-24 19:09:48.844 [TestNG-test-UI and E2E Hybrid Tests-2] INFO  com.fintech.domain.ui.pages.CardManagementPage - Retrieved text 'FROZEN' from element: By.id: card-status-badge
+2026-09-24 19:09:48.844 [TestNG-test-UI and E2E Hybrid Tests-2] INFO  com.fintech.domain.ui.pages.CardManagementPage - Clicking on element: By.id: btn-toggle-freeze
+2026-09-24 19:09:48.941 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.domain.ui.pages.CardManagementPage - Entering text into element: By.id: input-confirm-pin
+2026-09-24 19:09:48.974 [TestNG-test-UI and E2E Hybrid Tests-2] INFO  com.fintech.domain.ui.pages.CardManagementPage - Retrieved text 'ACTIVE' from element: By.id: card-status-badge
+2026-09-24 19:09:48.975 [TestNG-test-UI and E2E Hybrid Tests-2] INFO  com.fintech.framework.observability.GrafanaTestListener - <<< TEST PASSED: testCardFreezeToggle (991 ms)
+2026-09-24 19:09:48.978 [TestNG-test-UI and E2E Hybrid Tests-2] INFO  com.fintech.framework.observability.InfluxDbMetricsPublisher - InfluxDB client connected to http://localhost:8086
+2026-09-24 19:09:48.982 [TestNG-test-UI and E2E Hybrid Tests-2] WARN  com.fintech.framework.observability.InfluxDbMetricsPublisher - Unable to publish telemetry point to InfluxDB: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:8086
+2026-09-24 19:09:48.988 [TestNG-test-UI and E2E Hybrid Tests-2] INFO  com.fintech.framework.driver.DriverFactory - Quitting WebDriver for thread: TestNG-test-UI and E2E Hybrid Tests-2
+2026-09-24 19:09:49.098 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.domain.ui.pages.CardManagementPage - Clicking on element: By.id: btn-submit-pin
+2026-09-24 19:09:49.142 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseConnectionPool - Creating in-memory schema for H2 database...
+2026-09-24 19:09:49.184 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseConnectionPool - In-memory H2 schema and seed data created successfully!
+2026-09-24 19:09:49.219 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.dao.CardDao - DB DAO: Fetching card status for ID: CRD-23ac5e78
+2026-09-24 19:09:49.220 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Executing DB Query: SELECT status FROM cards WHERE id = ?
+2026-09-24 19:09:49.252 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Query returned 1 rows
+2026-09-24 19:09:49.254 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.ui.pages.CardManagementPage - Loading Card Management Portal for Card ID: CRD-23ac5e78
+2026-09-24 19:09:49.254 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.ui.pages.CardManagementPage - Navigating to URL: http://localhost:8089/card-portal
+2026-09-24 19:09:49.286 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.framework.observability.GrafanaTestListener - <<< TEST PASSED: testCardActivationAndPinSetup (1389 ms)
+2026-09-24 19:09:49.295 [TestNG-test-UI and E2E Hybrid Tests-1] WARN  com.fintech.framework.observability.InfluxDbMetricsPublisher - Unable to publish telemetry point to InfluxDB: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:8086
+2026-09-24 19:09:49.299 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.framework.driver.DriverFactory - Quitting WebDriver for thread: TestNG-test-UI and E2E Hybrid Tests-1
+2026-09-24 19:09:49.454 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.ui.pages.CardManagementPage - Clicking on element: By.id: btn-activate-card
+2026-09-24 19:09:49.583 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.ui.pages.CardManagementPage - Entering text into element: By.id: input-card-pin
+2026-09-24 19:09:49.716 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.ui.pages.CardManagementPage - Entering text into element: By.id: input-confirm-pin
+2026-09-24 19:09:49.830 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.ui.pages.CardManagementPage - Clicking on element: By.id: btn-submit-pin
+2026-09-24 19:09:49.982 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.ui.pages.CardManagementPage - Retrieved text 'ACTIVE' from element: By.id: card-status-badge
+2026-09-24 19:09:50.025 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.dao.CardDao - DB DAO: Updating card status: ID=CRD-23ac5e78 -> ACTIVE
+2026-09-24 19:09:50.025 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Executing DB Update: UPDATE cards SET status = ? WHERE id = ?
+2026-09-24 19:09:50.027 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.dao.CardDao - DB DAO: Fetching card status for ID: CRD-23ac5e78
+2026-09-24 19:09:50.027 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Executing DB Query: SELECT status FROM cards WHERE id = ?
+2026-09-24 19:09:50.027 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Query returned 1 rows
+2026-09-24 19:09:50.027 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.api.client.AuthorizationApiClient - API: Simulating Authorization for Amount: 150.00 USD at Merchant: BestBuy Electronics
+2026-09-24 19:09:50.029 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.api.RestClient - Executing POST request to endpoint: /api/v1/payments/authorize
+2026-09-24 19:09:50.097 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.kafka.KafkaProducerClient - Publishing event to Topic: payment-events | Key: CRD-23ac5e78 | Payload: {"authCode":"009988","cardId":"CRD-23ac5e78","amount":150.00,"status":"APPROVED"}
+2026-09-24 19:09:50.097 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.kafka.KafkaProducerClient - Event successfully placed on in-memory topic queue: payment-events
+2026-09-24 19:09:50.097 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.dao.LedgerDao - DB DAO: Applying Auth Hold of $150.00 to Account ID: ACC-DEMO-001
+2026-09-24 19:09:50.097 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Executing DB Update: UPDATE accounts SET available_balance = available_balance - ?, hold_balance = hold_balance + ? WHERE id = ?
+2026-09-24 19:09:50.101 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Executing DB Query: SELECT available_balance FROM accounts WHERE id = ?
+2026-09-24 19:09:50.103 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Query returned 1 rows
+2026-09-24 19:09:50.105 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Executing DB Update: INSERT INTO double_entry_ledger (id, transaction_id, account_id, entry_type, amount, balance_after, description) VALUES (?, ?, ?, 'DEBIT', ?, ?, 'Pending Auth Hold')
+2026-09-24 19:09:50.107 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.dao.LedgerDao - DB DAO: Fetching balances for Account ID: ACC-DEMO-001
+2026-09-24 19:09:50.107 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Executing DB Query: SELECT available_balance, hold_balance, currency FROM accounts WHERE id = ?
+2026-09-24 19:09:50.107 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Query returned 1 rows
+2026-09-24 19:09:50.107 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.observability.GrafanaTestListener - <<< TEST PASSED: testFullFintechCardLifecycle (2232 ms)
+2026-09-24 19:09:50.111 [TestNG-test-UI and E2E Hybrid Tests-3] WARN  com.fintech.framework.observability.InfluxDbMetricsPublisher - Unable to publish telemetry point to InfluxDB: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:8086
+2026-09-24 19:09:50.116 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.driver.DriverFactory - Quitting WebDriver for thread: TestNG-test-UI and E2E Hybrid Tests-3
+2026-09-24 19:09:50.305 [main] INFO  com.fintech.framework.observability.GrafanaTestListener - ================ FINISHED TEST SUITE: UI and E2E Hybrid Tests ================
+2026-09-24 19:09:50.313 [main] INFO  com.fintech.framework.mock.EmbeddedMockBankingServer - Stopping Embedded Mock Banking Server
+2026-09-25 15:25:39.087 [main] INFO  com.fintech.framework.mock.EmbeddedMockBankingServer - Embedded Mock Banking Server successfully started on port 8089
+2026-09-25 15:25:39.634 [main] INFO  com.fintech.framework.mock.EmbeddedMockBankingServer - Port 8089 is already in use (WireMock/Docker is active). Skipping embedded server.
+2026-09-25 15:25:39.643 [main] INFO  com.fintech.framework.observability.GrafanaTestListener - ================ STARTING TEST SUITE: API and Event Stream Tests ================
+2026-09-25 15:25:39.769 [TestNG-test-API and Event Stream Tests-2] INFO  com.fintech.framework.observability.GrafanaTestListener - >>> START TEST: CardIssuanceApiTest#testPaymentAuthorization
+2026-09-25 15:25:39.769 [TestNG-test-API and Event Stream Tests-4] INFO  com.fintech.framework.observability.GrafanaTestListener - >>> START TEST: PaymentEventKafkaTest#testKafkaPaymentEventStreaming
+2026-09-25 15:25:39.769 [TestNG-test-API and Event Stream Tests-3] INFO  com.fintech.framework.observability.GrafanaTestListener - >>> START TEST: CardIssuanceApiTest#testVirtualCardIssuance
+2026-09-25 15:25:39.770 [TestNG-test-API and Event Stream Tests-1] INFO  com.fintech.framework.observability.GrafanaTestListener - >>> START TEST: CardIssuanceApiTest#testCustomerCreation
+2026-09-25 15:25:39.778 [TestNG-test-API and Event Stream Tests-3] INFO  com.fintech.domain.api.client.CardIssuingApiClient - API: Issuing Virtual Card for Account ID: ACC-DEMO-001
+2026-09-25 15:25:39.781 [TestNG-test-API and Event Stream Tests-3] INFO  com.fintech.framework.api.RestClient - Executing POST request to endpoint: /api/v1/cards/issue
+2026-09-25 15:25:39.905 [TestNG-test-API and Event Stream Tests-2] INFO  com.fintech.domain.api.client.AuthorizationApiClient - API: Simulating Authorization for Amount: 150.00 USD at Merchant: Amazon Web Services
+2026-09-25 15:25:39.905 [TestNG-test-API and Event Stream Tests-2] INFO  com.fintech.framework.api.RestClient - Executing POST request to endpoint: /api/v1/payments/authorize
+2026-09-25 15:25:39.948 [TestNG-test-API and Event Stream Tests-4] INFO  com.fintech.framework.kafka.KafkaProducerClient - Publishing event to Topic: payment-events | Key: TXN-1bdca96f | Payload: {"eventId":"TXN-1bdca96f","eventType":"PAYMENT_AUTHORIZED","cardId":"CRD-3ddb6deb","accountId":"ACC-DEMO-001","amount":150.00,"currency":"USD","status":"APPROVED","timestamp":"2026-09-25T09:55:39.780272400Z"}
+2026-09-25 15:25:39.950 [TestNG-test-API and Event Stream Tests-4] INFO  com.fintech.framework.kafka.KafkaProducerClient - Kafka broker not reachable at localhost:9092. Using high-speed In-Memory Event Bus fallback.
+2026-09-25 15:25:39.959 [TestNG-test-API and Event Stream Tests-4] INFO  com.fintech.framework.kafka.KafkaProducerClient - Event successfully placed on in-memory topic queue: payment-events
+2026-09-25 15:25:39.962 [TestNG-test-API and Event Stream Tests-4] INFO  com.fintech.framework.kafka.KafkaConsumerClient - Awaiting event on topic 'payment-events' with key 'TXN-1bdca96f' (Timeout: 5s)
+2026-09-25 15:25:40.199 [TestNG-test-API and Event Stream Tests-1] INFO  com.fintech.domain.api.client.CustomerApiClient - API: Creating customer: Maudie Lynch
+2026-09-25 15:25:40.201 [TestNG-test-API and Event Stream Tests-1] INFO  com.fintech.framework.api.RestClient - Executing POST request to endpoint: /api/v1/customers
+2026-09-25 15:25:40.249 [TestNG-test-API and Event Stream Tests-4] INFO  com.fintech.framework.observability.GrafanaTestListener - <<< TEST PASSED: testKafkaPaymentEventStreaming (545 ms)
+2026-09-25 15:25:41.090 [TestNG-test-API and Event Stream Tests-4] INFO  com.fintech.framework.observability.InfluxDbMetricsPublisher - InfluxDB client connected to http://localhost:8086
+2026-09-25 15:25:41.360 [TestNG-test-API and Event Stream Tests-4] WARN  com.fintech.framework.observability.InfluxDbMetricsPublisher - Unable to publish telemetry point to InfluxDB: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:8086
+2026-09-25 15:25:42.659 [TestNG-test-API and Event Stream Tests-2] INFO  com.fintech.framework.observability.GrafanaTestListener - <<< TEST PASSED: testPaymentAuthorization (2958 ms)
+2026-09-25 15:25:42.660 [TestNG-test-API and Event Stream Tests-1] INFO  com.fintech.framework.observability.GrafanaTestListener - <<< TEST PASSED: testCustomerCreation (2959 ms)
+2026-09-25 15:25:42.663 [TestNG-test-API and Event Stream Tests-2] WARN  com.fintech.framework.observability.InfluxDbMetricsPublisher - Unable to publish telemetry point to InfluxDB: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:8086
+2026-09-25 15:25:42.663 [TestNG-test-API and Event Stream Tests-1] WARN  com.fintech.framework.observability.InfluxDbMetricsPublisher - Unable to publish telemetry point to InfluxDB: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:8086
+2026-09-25 15:25:42.672 [TestNG-test-API and Event Stream Tests-3] INFO  com.fintech.framework.observability.GrafanaTestListener - <<< TEST PASSED: testVirtualCardIssuance (2972 ms)
+2026-09-25 15:25:42.675 [TestNG-test-API and Event Stream Tests-3] WARN  com.fintech.framework.observability.InfluxDbMetricsPublisher - Unable to publish telemetry point to InfluxDB: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:8086
+2026-09-25 15:25:42.677 [main] INFO  com.fintech.framework.observability.GrafanaTestListener - ================ FINISHED TEST SUITE: API and Event Stream Tests ================
+2026-09-25 15:25:42.691 [main] INFO  com.fintech.framework.observability.GrafanaTestListener - ================ STARTING TEST SUITE: UI and E2E Hybrid Tests ================
+2026-09-25 15:25:42.713 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.driver.DriverFactory - Initializing WebDriver - Browser: chrome, Headless: false, ExecutionMode: local
+2026-09-25 15:25:42.708 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.framework.driver.DriverFactory - Initializing WebDriver - Browser: chrome, Headless: false, ExecutionMode: local
+2026-09-25 15:25:42.708 [TestNG-test-UI and E2E Hybrid Tests-2] INFO  com.fintech.framework.driver.DriverFactory - Initializing WebDriver - Browser: chrome, Headless: false, ExecutionMode: local
+2026-09-25 15:25:49.731 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.observability.GrafanaTestListener - >>> START TEST: EndToEndFintechLifecycleTest#testFullFintechCardLifecycle
+2026-09-25 15:25:49.732 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.api.client.CardIssuingApiClient - API: Issuing Virtual Card for Account ID: ACC-DEMO-001
+2026-09-25 15:25:49.733 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.api.RestClient - Executing POST request to endpoint: /api/v1/cards/issue
+2026-09-25 15:25:49.767 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.dao.CardDao - DB DAO: Inserting card record: ID=CRD-249785c1
+2026-09-25 15:25:49.769 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Executing DB Update: INSERT INTO cards (id, account_id, card_number_masked, card_token, card_type, status, daily_limit, expiry_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+2026-09-25 15:25:49.772 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseConnectionPool - PostgreSQL container not detected on localhost:5432. Initializing in-memory H2 database with schema.
+2026-09-25 15:25:50.412 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseConnectionPool - Creating in-memory schema for H2 database...
+2026-09-25 15:25:50.467 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseConnectionPool - In-memory H2 schema and seed data created successfully!
+2026-09-25 15:25:50.516 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.dao.CardDao - DB DAO: Fetching card status for ID: CRD-249785c1
+2026-09-25 15:25:50.516 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Executing DB Query: SELECT status FROM cards WHERE id = ?
+2026-09-25 15:25:50.547 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Query returned 1 rows
+2026-09-25 15:25:50.570 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.ui.pages.CardManagementPage - Loading Card Management Portal for Card ID: CRD-249785c1
+2026-09-25 15:25:50.570 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.ui.pages.CardManagementPage - Navigating to URL: http://localhost:8089/card-portal
+2026-09-25 15:25:50.654 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.ui.pages.CardManagementPage - Clicking on element: By.id: btn-activate-card
+2026-09-25 15:25:50.800 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.ui.pages.CardManagementPage - Entering text into element: By.id: input-card-pin
+2026-09-25 15:25:50.884 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.ui.pages.CardManagementPage - Entering text into element: By.id: input-confirm-pin
+2026-09-25 15:25:50.953 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.ui.pages.CardManagementPage - Clicking on element: By.id: btn-submit-pin
+2026-09-25 15:25:51.040 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.ui.pages.CardManagementPage - Retrieved text 'ACTIVE' from element: By.id: card-status-badge
+2026-09-25 15:25:51.054 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.dao.CardDao - DB DAO: Updating card status: ID=CRD-249785c1 -> ACTIVE
+2026-09-25 15:25:51.054 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Executing DB Update: UPDATE cards SET status = ? WHERE id = ?
+2026-09-25 15:25:51.054 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.dao.CardDao - DB DAO: Fetching card status for ID: CRD-249785c1
+2026-09-25 15:25:51.064 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Executing DB Query: SELECT status FROM cards WHERE id = ?
+2026-09-25 15:25:51.064 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Query returned 1 rows
+2026-09-25 15:25:51.064 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.api.client.AuthorizationApiClient - API: Simulating Authorization for Amount: 150.00 USD at Merchant: BestBuy Electronics
+2026-09-25 15:25:51.064 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.api.RestClient - Executing POST request to endpoint: /api/v1/payments/authorize
+2026-09-25 15:25:51.149 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.kafka.KafkaProducerClient - Publishing event to Topic: payment-events | Key: CRD-249785c1 | Payload: {"authCode":"009988","cardId":"CRD-249785c1","amount":150.00,"status":"APPROVED"}
+2026-09-25 15:25:51.149 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.kafka.KafkaProducerClient - Event successfully placed on in-memory topic queue: payment-events
+2026-09-25 15:25:51.149 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.dao.LedgerDao - DB DAO: Applying Auth Hold of $150.00 to Account ID: ACC-DEMO-001
+2026-09-25 15:25:51.149 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Executing DB Update: UPDATE accounts SET available_balance = available_balance - ?, hold_balance = hold_balance + ? WHERE id = ?
+2026-09-25 15:25:51.149 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Executing DB Query: SELECT available_balance FROM accounts WHERE id = ?
+2026-09-25 15:25:51.149 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Query returned 1 rows
+2026-09-25 15:25:51.149 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Executing DB Update: INSERT INTO double_entry_ledger (id, transaction_id, account_id, entry_type, amount, balance_after, description) VALUES (?, ?, ?, 'DEBIT', ?, ?, 'Pending Auth Hold')
+2026-09-25 15:25:51.165 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.domain.dao.LedgerDao - DB DAO: Fetching balances for Account ID: ACC-DEMO-001
+2026-09-25 15:25:51.165 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Executing DB Query: SELECT available_balance, hold_balance, currency FROM accounts WHERE id = ?
+2026-09-25 15:25:51.165 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.database.DatabaseUtils - Query returned 1 rows
+2026-09-25 15:25:51.165 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.observability.GrafanaTestListener - <<< TEST PASSED: testFullFintechCardLifecycle (1441 ms)
+2026-09-25 15:25:51.165 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.observability.InfluxDbMetricsPublisher - InfluxDB client connected to http://localhost:8086
+2026-09-25 15:25:51.213 [TestNG-test-UI and E2E Hybrid Tests-3] WARN  com.fintech.framework.observability.InfluxDbMetricsPublisher - Unable to publish telemetry point to InfluxDB: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:8086
+2026-09-25 15:25:51.221 [TestNG-test-UI and E2E Hybrid Tests-3] INFO  com.fintech.framework.driver.DriverFactory - Quitting WebDriver for thread: TestNG-test-UI and E2E Hybrid Tests-3
+2026-09-25 15:25:53.761 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.framework.observability.GrafanaTestListener - >>> START TEST: CardManagementUiTest#testCardActivationAndPinSetup
+2026-09-25 15:25:53.763 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.domain.ui.pages.CardManagementPage - Loading Card Management Portal for Card ID: CRD-1790330153762
+2026-09-25 15:25:53.763 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.domain.ui.pages.CardManagementPage - Navigating to URL: http://localhost:8089/card-portal
+2026-09-25 15:25:54.000 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.domain.ui.pages.CardManagementPage - Retrieved text 'PENDING_ACTIVATION' from element: By.id: card-status-badge
+2026-09-25 15:25:54.000 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.domain.ui.pages.CardManagementPage - Clicking on element: By.id: btn-activate-card
+2026-09-25 15:25:54.133 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.domain.ui.pages.CardManagementPage - Retrieved text 'ACTIVE' from element: By.id: card-status-badge
+2026-09-25 15:25:54.134 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.domain.ui.pages.CardManagementPage - Entering text into element: By.id: input-card-pin
+2026-09-25 15:25:54.243 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.domain.ui.pages.CardManagementPage - Entering text into element: By.id: input-confirm-pin
+2026-09-25 15:25:54.326 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.domain.ui.pages.CardManagementPage - Clicking on element: By.id: btn-submit-pin
+2026-09-25 15:25:54.445 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.framework.observability.GrafanaTestListener - <<< TEST PASSED: testCardActivationAndPinSetup (687 ms)
+2026-09-25 15:25:54.448 [TestNG-test-UI and E2E Hybrid Tests-1] WARN  com.fintech.framework.observability.InfluxDbMetricsPublisher - Unable to publish telemetry point to InfluxDB: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:8086
+2026-09-25 15:25:54.458 [TestNG-test-UI and E2E Hybrid Tests-1] INFO  com.fintech.framework.driver.DriverFactory - Quitting WebDriver for thread: TestNG-test-UI and E2E Hybrid Tests-1
+2026-09-25 15:25:55.024 [TestNG-test-UI and E2E Hybrid Tests-2] INFO  com.fintech.framework.observability.GrafanaTestListener - >>> START TEST: CardManagementUiTest#testCardFreezeToggle
+2026-09-25 15:25:55.025 [TestNG-test-UI and E2E Hybrid Tests-2] INFO  com.fintech.domain.ui.pages.CardManagementPage - Loading Card Management Portal for Card ID: CRD-1790330155024
+2026-09-25 15:25:55.025 [TestNG-test-UI and E2E Hybrid Tests-2] INFO  com.fintech.domain.ui.pages.CardManagementPage - Navigating to URL: http://localhost:8089/card-portal
+2026-09-25 15:25:55.184 [TestNG-test-UI and E2E Hybrid Tests-2] INFO  com.fintech.domain.ui.pages.CardManagementPage - Clicking on element: By.id: btn-activate-card
+2026-09-25 15:25:55.301 [TestNG-test-UI and E2E Hybrid Tests-2] INFO  com.fintech.domain.ui.pages.CardManagementPage - Clicking on element: By.id: btn-toggle-freeze
+2026-09-25 15:25:55.412 [TestNG-test-UI and E2E Hybrid Tests-2] INFO  com.fintech.domain.ui.pages.CardManagementPage - Retrieved text 'FROZEN' from element: By.id: card-status-badge
+2026-09-25 15:25:55.412 [TestNG-test-UI and E2E Hybrid Tests-2] INFO  com.fintech.domain.ui.pages.CardManagementPage - Clicking on element: By.id: btn-toggle-freeze
+2026-09-25 15:25:55.488 [TestNG-test-UI and E2E Hybrid Tests-2] INFO  com.fintech.domain.ui.pages.CardManagementPage - Retrieved text 'ACTIVE' from element: By.id: card-status-badge
+2026-09-25 15:25:55.488 [TestNG-test-UI and E2E Hybrid Tests-2] INFO  com.fintech.framework.observability.GrafanaTestListener - <<< TEST PASSED: testCardFreezeToggle (471 ms)
+2026-09-25 15:25:55.512 [TestNG-test-UI and E2E Hybrid Tests-2] WARN  com.fintech.framework.observability.InfluxDbMetricsPublisher - Unable to publish telemetry point to InfluxDB: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:8086
+2026-09-25 15:25:55.518 [TestNG-test-UI and E2E Hybrid Tests-2] INFO  com.fintech.framework.driver.DriverFactory - Quitting WebDriver for thread: TestNG-test-UI and E2E Hybrid Tests-2
+2026-09-25 15:25:55.756 [main] INFO  com.fintech.framework.observability.GrafanaTestListener - ================ FINISHED TEST SUITE: UI and E2E Hybrid Tests ================
+2026-09-25 15:25:55.762 [main] INFO  com.fintech.framework.mock.EmbeddedMockBankingServer - Stopping Embedded Mock Banking Server
